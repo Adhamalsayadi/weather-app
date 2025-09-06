@@ -1,0 +1,8 @@
+@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-purpleLight: #905ad4;
+  --color-purpleDark: #513eb4;
+  --color-purpleDeep: #3330a5;
+}
