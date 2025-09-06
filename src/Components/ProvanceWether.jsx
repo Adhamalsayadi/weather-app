@@ -10,8 +10,7 @@ import { useEffect, useState } from "react";
 // import { useContext } from "react";
 moment.locale("ar");
 
-let stopaxios = null;
-export default function Provancewether() {
+export default function Provancewether({ selectedCity }) {
   const [temp, settemp] = useState({
     temp: null,
     temp_max: null,
@@ -21,23 +20,24 @@ export default function Provancewether() {
   });
   const { t, i18n } = useTranslation();
   useEffect(() => {
+    if (!selectedCity) return;
+
     i18n.changeLanguage("ar");
+
+    const source = axios.CancelToken.source(); // create cancel token
+
     axios
       .get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=15.36&lon=44.19&appid=522210de1640f706b311dbea48f44d73",
-        {
-          cancelToken: new axios.CancelToken((e) => {
-            stopaxios = e;
-          }),
-        }
+        `https://api.openweathermap.org/data/2.5/weather?lat=${selectedCity.lat}&lon=${selectedCity.lon}&appid=522210de1640f706b311dbea48f44d73`,
+        { cancelToken: source.token }
       )
-      .then(function (response) {
+      .then((response) => {
         const tempres = Math.round(response.data.main.temp - 272.15);
         const temp_max = Math.round(response.data.main.temp_max - 272.15);
         const temp_min = Math.round(response.data.main.temp_min - 272.15);
         const des = response.data.weather[0].description;
         const ic = response.data.weather[0].icon;
-        console.log(response);
+
         settemp({
           temp: tempres,
           temp_max: temp_max,
@@ -45,21 +45,12 @@ export default function Provancewether() {
           des: des,
           icon: `https://openweathermap.org/img/wn/${ic}@2x.png`,
         });
+      })
+      .catch((error) => console.log(error));
 
-        console.log(response.data.main.temp_min);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .finally(function () {
-        // always executed
-      });
-    return () => {
-      stopaxios();
-    };
-  }, [i18n, settemp]);
-  // const { ConMode, setConMode } = useContext(ToggleModeContext);
+    return () => source.cancel(); // cancel previous request on unmount
+  }, [i18n, selectedCity]); // <-- now depends on selectedCity
+
   return (
     <Container
       maxWidth="lg"
@@ -74,7 +65,10 @@ export default function Provancewether() {
             className="flex items-end justify-start    h-full mt-4  "
             dir="rtl"
           >
-            <h2 className="mx-2 mt-4 mb-2 font-bold text-2xl"> {t("city")}</h2>
+            <h2 className="mx-2 mt-4 mb-2 font-bold text-2xl">
+              {" "}
+              {t("city")}: {selectedCity?.name}
+            </h2>
             <h5 className="mx-4 mt-4 mb-2 text-[15px]">
               {moment().format("MMMM Do YYYY, h:mm:ss a")}
             </h5>

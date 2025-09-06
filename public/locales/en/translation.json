@@ -1,6 +1,10 @@
 {
-  "city": "sanaa",
-  "title": "Yemen Weather",
-  "temp_min": "min",
-  "temp_max": "max"
+  "city": "City",
+  "title": "Weather",
+  "temp_min": "Min",
+  "temp_max": "Max",
+  "Sana'a": "Sanaa",
+  "Al Qaeem": "Al Qaeem",
+  "Amman": "Amman",
+  "Munich": "Munich"
 }

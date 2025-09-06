@@ -15,6 +15,11 @@ function App() {
       mode: ConMode ? "dark" : "light",
     },
   });
+  const [selectedCity, setSelectedCity] = useState({
+    name: "Sana'a",
+    lat: 15.36,
+    lon: 44.19,
+  });
 
   return (
     <div
@@ -26,8 +31,11 @@ function App() {
     >
       <ToggleModeContext.Provider value={{ ConMode, setConMode }}>
         <ThemeProvider theme={font}>
-          <Header />
-          <Provancewether />
+          <Header
+            selectedCity={selectedCity}
+            setSelectedCity={setSelectedCity}
+          />
+          <Provancewether selectedCity={selectedCity} />
         </ThemeProvider>
       </ToggleModeContext.Provider>
     </div>

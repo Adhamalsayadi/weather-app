@@ -58,8 +58,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
-export default function Header() {
+const cities = [
+  { name: "Sana'a", lat: 15.36, lon: 44.19 },
+  { name: "Al Qaeem", lat: 31.4, lon: 39.8 },
+  { name: "Amman ", lat: 31.95, lon: 35.93 },
+  { name: "Munich ", lat: 48.13, lon: 11.58 },
+];
+export default function Header({ selectedCity, setSelectedCity }) {
   const { t, i18n } = useTranslation();
   const [Weatherlanguage, setLanguage] = useState("ar");
   useEffect(() => {
@@ -103,15 +108,25 @@ export default function Header() {
         >
           {t("title")}
         </Typography>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            className="!text-white bg-blue-400 rounded-full"
-          />
-        </Search>
+        <div className="relative w-48">
+          <select
+            value={selectedCity.name}
+            onChange={(e) => {
+              const city = cities.find((c) => c.name === e.target.value);
+              setSelectedCity(city);
+            }}
+            className="w-full bg-blue-400 text-white rounded-full p-2 pl-3 pr-3 appearance-none"
+          >
+            {cities.map((city) => (
+              <option key={city.name} value={city.name}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <SearchIcon className="text-white" />
+          </div>
+        </div>
         <AmberSwitch
           defaultChecked
           value={ConMode}
