@@ -7,7 +7,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import Switch from "@mui/material/Switch";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -24,17 +23,19 @@ const AmberSwitch = styled(Switch)(() => ({
   },
 }));
 
+// Cities with keys only
 const cities = [
-  { name: "Sana'a", lat: 15.36, lon: 44.19 },
-  { name: "Al Qaeem", lat: 31.4, lon: 39.8 },
-  { name: "Amman ", lat: 31.95, lon: 35.93 },
-  { name: "Munich ", lat: 48.13, lon: 11.58 },
+  { key: "sanaa", lat: 15.36, lon: 44.19 },
+  { key: "al_qaeem", lat: 31.4, lon: 39.8 },
+  { key: "amman", lat: 31.95, lon: 35.93 },
+  { key: "munich", lat: 48.13, lon: 11.58 },
 ];
 
 export default function Header({ selectedCity, setSelectedCity }) {
   const { t, i18n } = useTranslation();
   const [Weatherlanguage, setLanguage] = useState("ar");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { ConMode, setConMode } = useContext(ToggleModeContext);
 
   useEffect(() => {
     if (Weatherlanguage === "ar") {
@@ -46,27 +47,29 @@ export default function Header({ selectedCity, setSelectedCity }) {
     }
   }, [Weatherlanguage, i18n]);
 
-  const { ConMode, setConMode } = useContext(ToggleModeContext);
-
   const drawerContent = (
     <Box sx={{ width: 250, p: 2 }}>
       <Typography variant="h6" sx={{ mb: 2 }}>
         {t("title")}
       </Typography>
+
+      {/* City select */}
       <select
-        value={selectedCity.name}
+        value={selectedCity.key}
         onChange={(e) => {
-          const city = cities.find((c) => c.name === e.target.value);
+          const city = cities.find((c) => c.key === e.target.value);
           setSelectedCity(city);
         }}
         className="w-full bg-blue-400 text-white rounded-full p-2 pl-3 pr-3 appearance-none"
       >
         {cities.map((city) => (
-          <option key={city.name} value={city.name}>
-            {city.name}
+          <option key={city.key} value={city.key}>
+            {t(`cities.${city.key}`)}
           </option>
         ))}
       </select>
+
+      {/* Mode switch */}
       <Box sx={{ mt: 2 }}>
         <AmberSwitch
           defaultChecked
@@ -74,6 +77,8 @@ export default function Header({ selectedCity, setSelectedCity }) {
           onClick={() => setConMode(!ConMode)}
         />
       </Box>
+
+      {/* Language toggle */}
       <Box sx={{ mt: 2 }}>
         <ToggleButtonGroup
           color="primary"
@@ -138,24 +143,26 @@ export default function Header({ selectedCity, setSelectedCity }) {
             }}
           >
             <select
-              value={selectedCity.name}
+              value={selectedCity.key}
               onChange={(e) => {
-                const city = cities.find((c) => c.name === e.target.value);
+                const city = cities.find((c) => c.key === e.target.value);
                 setSelectedCity(city);
               }}
               className="bg-blue-400 text-white rounded-full p-2 pl-3 pr-3 appearance-none"
             >
               {cities.map((city) => (
-                <option key={city.name} value={city.name}>
-                  {city.name}
+                <option key={city.key} value={city.key}>
+                  {t(`cities.${city.key}`)}
                 </option>
               ))}
             </select>
+
             <AmberSwitch
               defaultChecked
               value={ConMode}
               onClick={() => setConMode(!ConMode)}
             />
+
             <ToggleButtonGroup
               color="primary"
               value={Weatherlanguage}

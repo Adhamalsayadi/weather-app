@@ -1,5 +1,10 @@
 {
-  "city": "City",
+  "cities": {
+    "sanaa": "Sana'a",
+    "al_qaseem": "Al Qaeem",
+    "amman": "Amman",
+    "munich": "Munich"
+  },
   "title": "Weather",
   "temp_min": "Min",
   "temp_max": "Max",
