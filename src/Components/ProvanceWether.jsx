@@ -1,13 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import { useTranslation } from "react-i18next";
-
 import CloudIcon from "@mui/icons-material/Cloud";
 import axios from "axios";
 import moment from "moment/min/moment-with-locales";
-import { useEffect, useState } from "react";
-// import ToggleModeContext from "../Contexts//ToggleMode";
-// import { useContext } from "react";
 moment.locale("ar");
 
 export default function Provancewether({ selectedCity }) {
@@ -19,12 +15,13 @@ export default function Provancewether({ selectedCity }) {
     icon: null,
   });
   const { t, i18n } = useTranslation();
+
   useEffect(() => {
     if (!selectedCity) return;
 
     i18n.changeLanguage("ar");
 
-    const source = axios.CancelToken.source(); // create cancel token
+    const source = axios.CancelToken.source();
 
     axios
       .get(
@@ -48,58 +45,69 @@ export default function Provancewether({ selectedCity }) {
       })
       .catch((error) => console.log(error));
 
-    return () => source.cancel(); // cancel previous request on unmount
-  }, [i18n, selectedCity]); // <-- now depends on selectedCity
+    return () => source.cancel();
+  }, [i18n, selectedCity]);
 
   return (
-    <Container
-      maxWidth="lg"
-      className="mt-24 text-center !w-[500px] !h-[300px] !rounded-4xl"
-    >
-      {/* main div  */}
-      <div className=" bg-gradient-to-r from-purpleLight via-purpleDark to-purpleDeep !h-full w-full text-white p-2 rounded-sm ">
-        {/* content  */}
-        <div dir="rtl" className="w-full  ">
-          {/* name and date  */}
-          <div
-            className="flex items-end justify-start    h-full mt-4  "
-            dir="rtl"
-          >
-            <h2 className="mx-2 mt-4 mb-2 font-bold text-2xl">
-              {" "}
-              {t("city")}: {selectedCity?.name}
-            </h2>
-            <h5 className="mx-4 mt-4 mb-2 text-[15px]">
-              {moment().format("MMMM Do YYYY, h:mm:ss a")}
-            </h5>
-          </div>
-          {/* end name and date  */}
-
-          <hr className="text-white  border-2 !w-full" />
-          {/* temp and icons  */}
-          <div className="flex justify-around  w-full ">
-            <div>
-              <div className="flex justify-center items-center mt-1.5">
-                <h1 className="text-white  text-5xl ml-3  ">{temp.temp}</h1>
-                <img src={temp.icon} alt="" />
-              </div>
-              <h5 className="text-right my-1.5">{temp.des}</h5>
-              {/* min and max  */}
-              <div className="flex itemes-end justify-end  h-9 w-56 font-bold ">
-                <h5 className="!text-right">
-                  {t("temp_max")}: {temp.temp_max}
-                </h5>
-                <h5 className="px-4 ">|</h5>
-                <h5>
-                  {t("temp_min")}: {temp.temp_min}
-                </h5>
-              </div>
-            </div>
-            {/* end temp and icons  */}
-            <CloudIcon className="!text-9xl mb-2" />
-          </div>
+    <Container maxWidth="sm" className="mt-24 mx-auto">
+      <div
+        dir="rtl"
+        className="bg-gradient-to-r from-purpleLight to-purpleDark text-white p-6 rounded-3xl shadow-lg flex flex-col justify-between"
+      >
+        {/* Name & Date */}
+        <div className="mb-4 text-center sm:text-right">
+          <h2 className="font-bold text-xl sm:text-2xl mb-1">
+            {t("city")}: {selectedCity?.name}
+          </h2>
+          <h5 className="text-sm sm:text-base">
+            {moment().format("MMMM Do YYYY, h:mm:ss a")}
+          </h5>
         </div>
-        {/* end content  */}
+
+        <hr className="border-2 border-white mb-4 w-full" />
+
+        {/* Temperature & Icon */}
+        <div className="flex flex-col sm:flex-row justify-around items-center gap-4">
+          <div className="flex flex-col items-center sm:items-start">
+            <div className="flex items-center">
+              <h1 className="text-4xl sm:text-5xl font-bold">{temp.temp}</h1>
+              {temp.icon && (
+                <img
+                  src={temp.icon}
+                  alt=""
+                  className="w-16 h-16 sm:w-20 sm:h-20"
+                />
+              )}
+            </div>
+            <h5 className="text-center sm:text-left my-1">{temp.des}</h5>
+
+            <div className="flex justify-center sm:justify-start gap-2 font-bold text-sm sm:text-base">
+              <span>
+                {t("temp_max")}: {temp.temp_max}
+              </span>
+              <span>|</span>
+              <span>
+                {t("temp_min")}: {temp.temp_min}
+              </span>
+            </div>
+          </div>
+
+          <CloudIcon
+            className="mt-2 sm:mt-0"
+            style={{
+              fontSize:
+                window.innerWidth > 1536
+                  ? "10rem"
+                  : window.innerWidth > 1280
+                  ? "20rem"
+                  : window.innerWidth > 1024
+                  ? "15rem"
+                  : window.innerWidth > 768
+                  ? "12rem"
+                  : "8rem",
+            }}
+          />
+        </div>
       </div>
     </Container>
   );

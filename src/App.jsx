@@ -26,7 +26,7 @@ function App() {
       className={`App min-h-screen ${
         ConMode
           ? "bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-600"
-          : "bg-gradient-to-r from-purpleLight via-purpleDark to-purpleDeep"
+          : "bg-gradient-to-r from-purpleLight to-purpleDark "
       }`}
     >
       <ToggleModeContext.Provider value={{ ConMode, setConMode }}>
