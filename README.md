@@ -1,12 +1,27 @@
-# React + Vite
+# Weather App with React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a responsive weather application built with **React** and **Vite**.  
+It features:
 
-Currently, two official plugins are available:
+- Multi-city support (Sana'a, Al Qaeem, Amman, Munich)
+- Dark/Light mode toggle
+- Language toggle (Arabic / English)
+- Real-time weather updates using OpenWeatherMap API
+- Responsive design for desktop and mobile
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+1. **Multi-City Selection**  
+   Users can select a city from the dropdown in the header. The weather information updates automatically based on the selected city.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. **Language Toggle**  
+   Switch between Arabic and English. City names, labels, and temperature units are translated dynamically.
+
+3. **Dark / Light Mode**  
+   Toggle between dark and light themes using the switch in the header.
+
+4. **Weather Information**
+   - Current temperature
+   - Maximum and minimum temperatures
+   - Weather description
+   - Weather icon
