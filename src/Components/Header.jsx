@@ -148,7 +148,7 @@ export default function Header({ selectedCity, setSelectedCity }) {
                 const city = cities.find((c) => c.key === e.target.value);
                 setSelectedCity(city);
               }}
-              className="bg-blue-400 text-white rounded-full p-2 pl-3 pr-3 appearance-none"
+              className="bg-blue-400 text-white rounded-full p-2 pl-3 pr-3 appearance-none w-2xs mr-75 text-center"
             >
               {cities.map((city) => (
                 <option key={city.key} value={city.key}>
